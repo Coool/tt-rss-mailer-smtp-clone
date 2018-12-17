@@ -56,6 +56,7 @@ class mailer_smtp extends Plugin {
 			$phpmailer->setFrom($from_address, $from_name);
 			$phpmailer->addAddress($params["to_address"], $params["to_name"]);
 			$phpmailer->Subject = $params["subject"];
+			$phpmailer->CharSet = "UTF-8";
 
 			if ($params["message_html"]) {
 				$phpmailer->msgHTML($params["message_html"]);
