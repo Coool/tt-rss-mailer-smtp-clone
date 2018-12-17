@@ -25,6 +25,7 @@ class mailer_smtp extends Plugin {
 			$pair = explode(":", SMTP_SERVER, 2);
 			$phpmailer->Host = $pair[0];
 			$phpmailer->Port = $pair[1];
+			$phpmailer->CharSet = "UTF-8";
 
 			if (!$phpmailer->Port) $phpmailer->Port = 25;
 
@@ -56,7 +57,6 @@ class mailer_smtp extends Plugin {
 			$phpmailer->setFrom($from_address, $from_name);
 			$phpmailer->addAddress($params["to_address"], $params["to_name"]);
 			$phpmailer->Subject = $params["subject"];
-			$phpmailer->CharSet = "UTF-8";
 
 			if ($params["message_html"]) {
 				$phpmailer->msgHTML($params["message_html"]);
