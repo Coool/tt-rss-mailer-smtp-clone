@@ -26,6 +26,7 @@ class mailer_smtp extends Plugin {
 			$pair = explode(":", SMTP_SERVER, 2);
 			$phpmailer->Host = $pair[0];
 			$phpmailer->Port = $pair[1];
+			$phpmailer->CharSet = "UTF-8";
 
 			if (!$phpmailer->Port) $phpmailer->Port = 25;
 
