@@ -4,9 +4,10 @@ class mailer_smtp extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Supports sending mail via SMTP using PHPMailer. Read README.txt before enabling.",
+			"Sends mail via SMTP using PHPMailer. Read README.txt before enabling.",
 			"fox",
-			1);
+			1,
+			"https://git.tt-rss.org/fox/ttrss-mailer-smtp");
 	}
 
 	function init($host) {
@@ -56,6 +57,7 @@ class mailer_smtp extends Plugin {
 			$phpmailer->setFrom($from_address, $from_name);
 			$phpmailer->addAddress($params["to_address"], $params["to_name"]);
 			$phpmailer->Subject = $params["subject"];
+			$phpmailer->CharSet = "UTF-8";
 
 			if ($params["message_html"]) {
 				$phpmailer->msgHTML($params["message_html"]);
