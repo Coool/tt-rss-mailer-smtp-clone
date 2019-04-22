@@ -50,7 +50,13 @@ class mailer_smtp extends Plugin {
 				        'allow_self_signed' => true
 				    )
 				);
-			}
+			} elseif (defined('SMTP_CA_FILE') && SMTP_CA_FILE) {
+				$phpmailer->SMTPOptions = array(
+				    'ssl' => array(
+                        'cafile' => SMTP_CA_FILE
+				    )
+				);
+            }
 
 			$from_name = $params["from_name"] ? $params["from_name"] : SMTP_FROM_NAME;
 			$from_address = $params["from_address"] ? $params["from_address"] : SMTP_FROM_ADDRESS;
