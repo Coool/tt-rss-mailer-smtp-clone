@@ -25,6 +25,10 @@ per-user).
 
 	define('SMTP_SKIP_CERT_CHECKS', false);
 	// Accept all SSL certificates, use with caution.
+
+	define('SMTP_CA_FILE', '/path/to/ca.crt');
+	// Use a custom CA certificate for SSL/TLS secure connections.
+	// Only used if SMTP_SKIP_CERT_CHECKS is false.
 ```
 
 At least SMTP_SERVER needs to set for plugin to work.
