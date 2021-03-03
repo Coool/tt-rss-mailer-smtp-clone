@@ -5,12 +5,12 @@ class mailer_smtp extends Plugin {
 	/** @var PluginHost $host */
 	private $host;
 
-	const TTRSS_SMTP_SERVER = "TTRSS_SMTP_SERVER";
-	const TTRSS_SMTP_LOGIN = "TTRSS_SMTP_LOGIN";
-	const TTRSS_SMTP_PASSWORD = "TTRSS_SMTP_PASSWORD";
-	const TTRSS_SMTP_SECURE = "TTRSS_SMTP_SECURE";
-	const TTRSS_SMTP_SKIP_CERT_CHECKS = "TTRSS_SMTP_SKIP_CERT_CHECKS";
-	const TTRSS_SMTP_CA_FILE = "TTRSS_SMTP_CA_FILE";
+	const SMTP_SERVER = "SMTP_SERVER";
+	const SMTP_LOGIN = "SMTP_LOGIN";
+	const SMTP_PASSWORD = "SMTP_PASSWORD";
+	const SMTP_SECURE = "SMTP_SECURE";
+	const SMTP_SKIP_CERT_CHECKS = "SMTP_SKIP_CERT_CHECKS";
+	const SMTP_CA_FILE = "SMTP_CA_FILE";
 
 	function about() {
 		return array(null,
@@ -23,43 +23,43 @@ class mailer_smtp extends Plugin {
 	function init(PluginHost $host) {
 		$this->host = $host;
 
-		Config::add(self::TTRSS_SMTP_SERVER, "", Config::T_STRING);
-		Config::add(self::TTRSS_SMTP_LOGIN, "", Config::T_STRING);
-		Config::add(self::TTRSS_SMTP_PASSWORD, "", Config::T_STRING);
-		Config::add(self::TTRSS_SMTP_SECURE, "", Config::T_STRING);
-		Config::add(self::TTRSS_SMTP_SKIP_CERT_CHECKS, "false", Config::T_BOOL);
-		Config::add(self::TTRSS_SMTP_CA_FILE, "", Config::T_STRING);
+		Config::add(self::SMTP_SERVER, "", Config::T_STRING);
+		Config::add(self::SMTP_LOGIN, "", Config::T_STRING);
+		Config::add(self::SMTP_PASSWORD, "", Config::T_STRING);
+		Config::add(self::SMTP_SECURE, "", Config::T_STRING);
+		Config::add(self::SMTP_SKIP_CERT_CHECKS, "false", Config::T_BOOL);
+		Config::add(self::SMTP_CA_FILE, "", Config::T_STRING);
 
 		$host->add_hook(PluginHost::HOOK_SEND_MAIL, $this);
 	}
 
 	function hook_send_mail($mailer, $params) {
-		if (Config::get(self::TTRSS_SMTP_SERVER)) {
+		if (Config::get(self::SMTP_SERVER)) {
 
 			$phpmailer = new \PHPMailer\PHPMailer\PHPMailer();
 
 			$phpmailer->isSMTP();
 
-			$pair = explode(":", Config::get(self::TTRSS_SMTP_SERVER), 2);
+			$pair = explode(":", Config::get(self::SMTP_SERVER), 2);
 			$phpmailer->Host = $pair[0];
 			$phpmailer->Port = (int)$pair[1];
 			$phpmailer->CharSet = "UTF-8";
 
 			if (!$phpmailer->Port) $phpmailer->Port = 25;
 
-			if (Config::get(self::TTRSS_SMTP_LOGIN)) {
+			if (Config::get(self::SMTP_LOGIN)) {
 				$phpmailer->SMTPAuth = true;
-				$phpmailer->Username = Config::get(self::TTRSS_SMTP_LOGIN);
-				$phpmailer->Password = Config::get(self::TTRSS_SMTP_PASSWORD);
+				$phpmailer->Username = Config::get(self::SMTP_LOGIN);
+				$phpmailer->Password = Config::get(self::SMTP_PASSWORD);
 			}
 
-			if (Config::get(self::TTRSS_SMTP_SECURE)) {
-				$phpmailer->SMTPSecure = Config::get(self::TTRSS_SMTP_SECURE);
+			if (Config::get(self::SMTP_SECURE)) {
+				$phpmailer->SMTPSecure = Config::get(self::SMTP_SECURE);
 			} else {
 				$phpmailer->SMTPAutoTLS = false;
 			}
 
-			if (Config::get(self::TTRSS_SMTP_SKIP_CERT_CHECKS)) {
+			if (Config::get(self::SMTP_SKIP_CERT_CHECKS)) {
 				$phpmailer->SMTPOptions = array(
 				    'ssl' => array(
 				        'verify_peer' => false,
@@ -67,10 +67,10 @@ class mailer_smtp extends Plugin {
 				        'allow_self_signed' => true
 				    )
 				);
-			} else if (Config::get(self::TTRSS_SMTP_CA_FILE)) {
+			} else if (Config::get(self::SMTP_CA_FILE)) {
 				$phpmailer->SMTPOptions = array(
 				    'ssl' => array(
-                        'cafile' => Config::get(self::TTRSS_SMTP_CA_FILE)
+                        'cafile' => Config::get(self::SMTP_CA_FILE)
 				    )
 				);
             }
