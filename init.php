@@ -75,14 +75,14 @@ class mailer_smtp extends Plugin {
 				);
             }
 
-			$from_name = $params["from_name"] ? $params["from_name"] :
+			$from_name = !empty($params["from_name"]) ? $params["from_name"] :
 				Config::get(Config::SMTP_FROM_NAME);
 
-			$from_address = $params["from_address"] ? $params["from_address"] :
+			$from_address = !empty($params["from_address"]) ? $params["from_address"] :
 				Config::get(Config::SMTP_FROM_ADDRESS);
 
 			$phpmailer->setFrom($from_address, $from_name);
-			$phpmailer->addAddress($params["to_address"], $params["to_name"]);
+			$phpmailer->addAddress($params["to_address"], ($params["to_name"] ?? ""));
 			$phpmailer->Subject = $params["subject"];
 			$phpmailer->CharSet = "UTF-8";
 
