@@ -103,7 +103,7 @@ class mailer_smtp extends Plugin {
 			if (!$rc)
 				$mailer->set_error($rc . " " . $phpmailer->ErrorInfo);
 
-			return $rc;
+			return $rc ? $rc : -1;
 		}
 	}
 
