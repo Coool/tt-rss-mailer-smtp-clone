@@ -1,34 +1,17 @@
-Warning: this plugin uses PHPMailer which is a library with regularly discovered
-vulnerabilities. Use at your own risk.
-
-Installation
-============
+# Installation
 
 1. Git clone plugin to tt-rss/plugins.local/mailer_smtp
-2. Enable in config.php directive PLUGINS (this is a system plugin, it can't be enabled
-per-user).
-3. Add the following to config.php:
+2. Enable via `TTRSS_PLUGINS` global configuration setting (this is a system plugin, it can't be enabled per-user).
+3. Set the following plugin settings via `.env` or `putenv()` in `config.php`:
 
-```
-	define('SMTP_SERVER', '');
-	// Hostname:port combination to send outgoing mail (i.e. localhost:25).
-	// Blank - use system MTA.
+	- `TTRSS_SMTP_SERVER` - Send outgoing mail via this server (hostname:port). Required.
+	- `TTRSS_SMTP_LOGIN`, `TTRSS_SMTP_PASSWORD` - SMTP login/password, if needed.
+	- `TTRSS_SMTP_SECURE` - Use secure connection. Allowed values: `ssl`, `tls`, or empty.
+	- `TTRSS_SMTP_SKIP_CERT_CHECKS` - Accept all SSL certificates, use with caution.
+	- `TTRSS_SMTP_CA_FILE` - Use a custom CA certificate for SSL/TLS secure connections. Only used if TTRSS_SMTP_SKIP_CERT_CHECKS is false.
 
-	define('SMTP_LOGIN', '');
-	define('SMTP_PASSWORD', '');
-	// These two options enable SMTP authentication when sending
-	// outgoing mail. Only used with SMTP_SERVER.
+## Upgrading from legacy setup
 
-	define('SMTP_SECURE', '');
-	// Used to select a secure SMTP connection. Allowed values: ssl, tls,
-	// or empty.
+If you don't use `.env`, migrate `config.php` values as follows:
 
-	define('SMTP_SKIP_CERT_CHECKS', false);
-	// Accept all SSL certificates, use with caution.
-
-	define('SMTP_CA_FILE', '/path/to/ca.crt');
-	// Use a custom CA certificate for SSL/TLS secure connections.
-	// Only used if SMTP_SKIP_CERT_CHECKS is false.
-```
-
-At least SMTP_SERVER needs to set for plugin to work.
+`define('SMTP_SERVER', 'hostname');` &rarr; `putenv('TTRSS_SMTP_SERVER=hostname);`
