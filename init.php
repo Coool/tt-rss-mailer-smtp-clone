@@ -33,7 +33,7 @@ class mailer_smtp extends Plugin {
 		$host->add_hook(PluginHost::HOOK_SEND_MAIL, $this);
 	}
 
-	function hook_send_mail($mailer, $params) {
+	function hook_send_mail(Mailer $mailer, $params) {
 		if (Config::get(self::SMTP_SERVER)) {
 
 			$phpmailer = new \PHPMailer\PHPMailer\PHPMailer();
